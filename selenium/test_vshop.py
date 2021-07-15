@@ -125,11 +125,22 @@ class VShopTest(object):
         eles[0].click()
         time.sleep(10)
 
-    def step_8(self):
-        print("第八步，进行支付操作，页面出现故障，暂停操作")
-        pass
+    def step_8(self, username):
+        try:
+            print("第八步，进行支付操作，页面出现故障，暂停操作")
+            windows = self.driver.window_handles
+            self.driver.switch_to.window(windows[-1])
+            email_input_box = self.driver.find_element_by_id("email")
+            email_input_box.clear()
+            email_input_box.send_keys(username)
+            time.sleep(2)
+            next_button = self.driver.find_element_by_name("btnNext")
+            next_button.click()
+            time.sleep(5)
+        except:
+            pass
 
-    def main(self, url, currency, product, num, method):
+    def main(self, url, currency, product, num, method, username):
         try:
             self.step_1(url)
             self.step_2(currency)
@@ -138,11 +149,11 @@ class VShopTest(object):
             self.step_5(num, method)
             self.step_6()
             self.step_7()
-            self.step_8()
+            self.step_8(username)
         except Exception as e:
             print(e)
 
-        self.driver.close()
+        self.driver.quit()
 
 
 if __name__ == '__main__':
@@ -152,4 +163,5 @@ if __name__ == '__main__':
     product = 'Tshirt'
     quantity_num = 20
     method = 'click'
-    vshop.main(url=url, currency=currency, product=product, num=quantity_num, method=method)
+    username = 'vango@163.com'
+    vshop.main(url=url, currency=currency, product=product, num=quantity_num, method=method, username=username)
