@@ -68,31 +68,17 @@ Note
 C:\Python35\python.exe C:\my_selenium_script.py
 ```
 
-## 1.4. 下载 Selenium 服务器
+## 1.4. 下载各浏览器对应的webdriver
 
-Note
+下面以windows10，chrome浏览器为例：
 
-如果你想使用一个远程的WebDriver，Selenium服务是唯一的依赖， 参见 [使用远程 Selenium WebDriver](https://selenium-python-zh.readthedocs.io/en/latest/getting-started.html#selenium-remote-webdriver) 获得更多细节。 如果你只是刚刚开始学习使用Selenium，你可以忽略该章节直接开始下一节。
+chrome版本查看：![](C:\Tutorial\tutorial\selenium\chrome版本.png)
 
-Selenium server是一个JAVA工程，Java Runtime Environment (JRE) 1.6或者更高的版本是推荐的运行环境。
+chromedriver下载地址：https://npm.taobao.org/mirrors/chromedriver/
 
-你可以在 [该下载页](http://seleniumhq.org/download/) 下载2.x的Selenium server，这个文件大概长成这个样子：`selenium-server-standalone-2.x.x.jar`， 你可以去下载最新版本的2.x server。
+chromedriver版本一定要和chrome版本一致，不然可能无法驱动浏览器
 
-如果你还没有安装Java Runtime Environment (JRE)的话， 呢，[在这下载](http://www.oracle.com/technetwork/java/javase/downloads/index.html)， 如果你是有的是GNU/Linux系统，并且巧了，你还有root权限，你还可以使用操作系统指令去安装JRE。
-
-如果你把`java`命令放在了PATH(环境变量)中的话，使用下面命令安装:
-
-```
-java -jar selenium-server-standalone-2.x.x.jar
-```
-
-当然了，把``2.x.x``换成你下载的实际版本就可以了。
-
-如果是不是root用户你或者没有把JAVA放到PATH中， 你可以使用绝对路径或者相对路径的方式来使用命令， 这个命令大概长这样子:
-
-```
-/path/to/java -jar /path/to/selenium-server-standalone-2.x.x.jar
-```
+chromedriver环境配置，最好将chromedriver配置全局环境，后面就不需要指定路径驱动了
 
 
 
@@ -248,7 +234,7 @@ setUp 方法是初始化的一部分, 该方法会在该测试类中的每一个
 
 ```python
 def setUp(self):
-    self.driver = webdriver.Firefox()
+    self.driver = webdriver.Chrome()
 ```
 
 这是一个测试用例实际的测试方法. 测试方法始终以 test`开头。 在该方法中的第一行创建了一个在 `setUp 方法中创建的驱动程序对象的本地引用。
@@ -347,12 +333,6 @@ WebDriver有一个”基于对象”的API; 我们使用相同的接口表示所
 element.send_keys("some text")
 ```
 
-你还可以通过”Keys”类来模拟输入方向键:
-
-```
-element.send_keys(" and some", Keys.ARROW_DOWN)
-```
-
 对于任何元素，他可能都叫 send_keys ，这就使得它可以测试键盘快捷键， 比如当你使用Gmail的时候。但是有一个副作用是当你输入一些文本时，这些 输入框中原有的文本不会被自动清除掉，相反，你的输入会继续添加到已存在文本之后。 你可以很方便的使用 clear 方法去清除input或者textarea元素中的内容:
 
 ```
@@ -363,7 +343,7 @@ element.clear()
 
 我们已经知道如何在input或textarea元素中输入内容，但是其他元素怎么办？ 你可以“切换”下拉框的状态，你可以使用``setSelected``方法去做一些事情，比如 选择下拉列表，处理`SELECT`元素其实没有那么麻烦:
 
-```
+```python
 element = driver.find_element_by_xpath("//select[@name='name']")
 all_options = element.find_elements_by_tag_name("option")
 for option in all_options:
@@ -375,7 +355,7 @@ for option in all_options:
 
 正如你说看到的那样，这不是处理 SELECT 元素最好的方法。WebDriver的支持类包括一个叫做 [``](https://selenium-python-zh.readthedocs.io/en/latest/navigating.html#id6)Select``的类，他提供有用的方法处理这些内容:
 
-```
+```python
 from selenium.webdriver.support.ui import Select
 select = Select(driver.find_element_by_name('name'))
 select.select_by_index(index)
@@ -390,7 +370,7 @@ select = Select(driver.find_element_by_id('id'))
 select.deselect_all()
 ```
 
-这将取消选择所以的OPTION。
+这将取消选择所有的OPTION。
 
 假设在一个案例中，我们需要列出所有已经选择的选项，Select类提供了方便的方法来实现这一点:
 

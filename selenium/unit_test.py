@@ -64,7 +64,7 @@ class PythonOrgSearch(unittest.TestCase):
             time.sleep(0.5)
 
     def test_5_scroll_to_target_element(self):
-        print("打开简单网并滑动到目标元素")
+        print("打开煎蛋网并滑动到目标元素")
         self.driver.get('http://jandan.net/p/109251')
         js_script = "arguments[0].scrollIntoView();"
         ele = self.driver.find_element_by_id("shang-button")
@@ -80,6 +80,20 @@ class PythonOrgSearch(unittest.TestCase):
         time.sleep(5)
 
     def test_7_choice_and_add_to_cart(self):
+        print("打开商品列表，随机选择一个商品，点击进入商品详情页")
+        url = 'http://weijiao.phigogroup.com/productList.html'
+        self.driver.get(url)
+
+        ele = self.driver.find_element_by_xpath('//div[@class="productContainer"]')
+
+        divs = ele.find_elements_by_tag_name('div')
+        print(divs, '\n', len(divs))
+
+        divs[random.randint(0, len(divs) - 1)].click()
+
+        time.sleep(10)
+
+    def test_8_choice_and_add_to_cart(self):
         print("随机选择商品属性并添加如购物车")
         num = random.randint(1, 99)
         method = 'click'

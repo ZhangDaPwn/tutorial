@@ -19,7 +19,7 @@ class VShopTest(object):
         if self.headless:
             self.options.add_argument('--headless')
         self.driver = webdriver.Chrome(chrome_options=self.options)
-        self.driver.implicitly_wait(5)
+        # self.driver.implicitly_wait(5)
         self.driver.maximize_window()
 
     def scroll_to_bottom(self):
@@ -75,7 +75,7 @@ class VShopTest(object):
             for attr in attrs:
                 # 参数类型一：列表
                 lis = attr.find_elements_by_xpath('./ul/li')
-                lis[random.randint(1, len(lis))].click()
+                lis[random.randint(1, len(lis) - 1)].click()
 
             if method == 'click':
                 add_button = self.driver.find_element_by_class_name("addBtn")
@@ -152,5 +152,4 @@ if __name__ == '__main__':
     product = 'Tshirt'
     quantity_num = 20
     method = 'click'
-
     vshop.main(url=url, currency=currency, product=product, num=quantity_num, method=method)
